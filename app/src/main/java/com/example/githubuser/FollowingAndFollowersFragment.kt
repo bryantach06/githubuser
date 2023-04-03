@@ -1,17 +1,13 @@
 package com.example.githubuser
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.viewpager2.widget.ViewPager2
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.databinding.FragmentFollowingAndFollowersBinding
 
 class FollowingAndFollowersFragment : Fragment() {
@@ -45,18 +41,40 @@ class FollowingAndFollowersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.rvFollow.apply {
+            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = FollowAdapter(emptyList())
+        }
+
+        val followViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
+        val userName = arguments?.getString("login")
+
+        if (position == 0){
+            if (userName != null) {
+                followViewModel.getUserFollowers(userName)
+            }
+        } else {
+            if (userName != null) {
+                followViewModel.getUserFollowings(userName)
+            }
+        }
+
+        followViewModel.isLoading.observe(viewLifecycleOwner){
+            showLoading(it)
+        }
+
+        followViewModel.followingResponse.observe(viewLifecycleOwner) {
+            (binding.rvFollow.adapter as FollowAdapter).updateData(it)
+        }
+
+        followViewModel.followerResponse.observe(viewLifecycleOwner) {
+            (binding.rvFollow.adapter as FollowAdapter).updateData(it)
+        }
 
         arguments?.let {
             position = it.getInt(ARG_POSITION)
             username = it.getString(ARG_USERNAME).toString()
         }
-//        if (position == 1){
-//            binding.rvFollow.adapter = FollowAdapter(listFollow = List<FollowResponseItem>())
-//        } else {
-//            binding.tvTest.text = "Following : $username"
-//            Log.d("Username", username)
-//        }
-
     }
 
     private fun showLoading(isLoading: Boolean) {

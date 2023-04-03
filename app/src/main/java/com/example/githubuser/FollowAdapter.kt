@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class FollowAdapter(private val listFollow : List<FollowResponseItem>) : RecyclerView.Adapter<FollowAdapter.FollowViewHolder>() {
+class FollowAdapter(private var listFollow : List<FollowResponseItem>) : RecyclerView.Adapter<FollowAdapter.FollowViewHolder>() {
 
     class FollowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvUser: TextView = itemView.findViewById(R.id.tv_users)
@@ -28,5 +28,9 @@ class FollowAdapter(private val listFollow : List<FollowResponseItem>) : Recycle
         Glide.with(holder.ivUser)
             .load(users.avatarUrl)
             .into(holder.ivUser)
+    }
+    fun updateData(newFollowList: List<FollowResponseItem>){
+        listFollow = newFollowList
+        notifyDataSetChanged()
     }
 }
