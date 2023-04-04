@@ -1,10 +1,9 @@
+package com.example.githubuser
+
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.githubuser.ApiConfig
-import com.example.githubuser.ApiService
-import com.example.githubuser.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

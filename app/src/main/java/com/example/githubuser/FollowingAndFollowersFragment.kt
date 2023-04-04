@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.databinding.FragmentFollowingAndFollowersBinding
@@ -34,7 +33,7 @@ class FollowingAndFollowersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFollowingAndFollowersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -46,7 +45,7 @@ class FollowingAndFollowersFragment : Fragment() {
             adapter = FollowAdapter(emptyList())
         }
 
-        val followViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FollowViewModel::class.java)
+        val followViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[FollowViewModel::class.java]
         val userName = arguments?.getString("login")
 
         if (position == 0){

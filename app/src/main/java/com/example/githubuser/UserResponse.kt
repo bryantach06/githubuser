@@ -16,12 +16,6 @@ data class UserResponse(
 	@field:SerializedName("following_url")
 	val followingUrl: String,
 
-//	@field:SerializedName("twitter_username")
-//	val twitterUsername: Any,
-//
-//	@field:SerializedName("bio")
-//	val bio: Any,
-
 	@field:SerializedName("created_at")
 	val createdAt: String,
 

@@ -1,12 +1,10 @@
 package com.example.githubuser
 
-import DetailViewModel
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.githubuser.FollowingAndFollowersFragment.Companion.ARG_USERNAME
@@ -49,9 +47,9 @@ class DetailUserActivity : AppCompatActivity() {
             viewModel.getDetailUser(user.login)
         }
 
-        viewModel.userDetail.observe(this, Observer {
+        viewModel.userDetail.observe(this) {
             showLoading(true)
-            if (it != null){
+            if (it != null) {
                 showLoading(false)
                 Glide.with(this)
                     .load(it.avatarUrl)
@@ -62,7 +60,7 @@ class DetailUserActivity : AppCompatActivity() {
                 tv_following.text = "Following : ${it.following.toString()}"
                 print(tv_name)
             }
-        })
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
