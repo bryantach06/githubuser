@@ -1,4 +1,4 @@
-package com.example.githubuser
+package com.example.githubuser.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

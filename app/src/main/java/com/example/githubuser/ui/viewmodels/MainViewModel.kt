@@ -1,9 +1,12 @@
-package com.example.githubuser
+package com.example.githubuser.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.githubuser.api.ApiConfig
+import com.example.githubuser.GithubResponse
+import com.example.githubuser.ItemsItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +32,8 @@ class MainViewModel: ViewModel() {
 
     private fun findUsers(){
         _isLoading.value = true
-        ApiConfig.getApiService().getUsers(query = QUERY_USERNAME).enqueue(object : Callback<GithubResponse>{
+        ApiConfig.getApiService()
+            .getUsers(query = QUERY_USERNAME).enqueue(object : Callback<GithubResponse>{
             override fun onResponse(
                 call: Call<GithubResponse>,
                 response: Response<GithubResponse>

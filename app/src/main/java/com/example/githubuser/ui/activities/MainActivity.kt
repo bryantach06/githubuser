@@ -1,7 +1,8 @@
-package com.example.githubuser
+package com.example.githubuser.ui.activities
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import com.example.githubuser.*
+import com.example.githubuser.api.ApiConfig
+import com.example.githubuser.ui.adapters.UsersAdapter
+import com.example.githubuser.ui.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,6 +70,11 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
+        val favoriteList = menu.findItem(R.id.favorites)
+        favoriteList.setOnMenuItemClickListener {
+            startActivity(Intent(this, FavoriteUserListActivity::class.java))
+            true
+        }
         return true
     }
 

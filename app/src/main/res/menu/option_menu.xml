@@ -7,4 +7,9 @@
         android:title="Cari User"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|always" />
+    <item
+        android:id="@+id/favorites"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="Favorites"
+        app:showAsAction="always"/>
 </menu>

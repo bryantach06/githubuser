@@ -1,9 +1,11 @@
-package com.example.githubuser
+package com.example.githubuser.ui.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.githubuser.api.ApiConfig
+import com.example.githubuser.FollowResponseItem
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +23,8 @@ class FollowViewModel: ViewModel() {
 
     fun getUserFollowers(username: String){
         _isLoading.value = true
-        ApiConfig.getApiService().getUserFollowers(username).enqueue(object: Callback<List<FollowResponseItem>>{
+        ApiConfig.getApiService()
+            .getUserFollowers(username).enqueue(object: Callback<List<FollowResponseItem>>{
             override fun onResponse(
                 call: Call<List<FollowResponseItem>>,
                 response: Response<List<FollowResponseItem>>
@@ -40,7 +43,8 @@ class FollowViewModel: ViewModel() {
     }
     fun getUserFollowings(username: String){
         _isLoading.value = true
-        ApiConfig.getApiService().getUserFollowing(username).enqueue(object : Callback<List<FollowResponseItem>>{
+        ApiConfig.getApiService()
+            .getUserFollowing(username).enqueue(object : Callback<List<FollowResponseItem>>{
             override fun onResponse(
                 call: Call<List<FollowResponseItem>>,
                 response: Response<List<FollowResponseItem>>

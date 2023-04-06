@@ -1,4 +1,4 @@
-package com.example.githubuser
+package com.example.githubuser.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
