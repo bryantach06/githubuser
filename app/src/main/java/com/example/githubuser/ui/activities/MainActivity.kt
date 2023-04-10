@@ -7,29 +7,41 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubuser.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.example.githubuser.*
 import com.example.githubuser.api.ApiConfig
+import com.example.githubuser.database.SettingsPreferences
 import com.example.githubuser.ui.adapters.UsersAdapter
 import com.example.githubuser.ui.viewmodels.MainViewModel
+import com.example.githubuser.ui.viewmodels.ViewModelFactory
+import com.google.android.material.switchmaterial.SwitchMaterial
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var favoriteList: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MainViewModel::class.java]
+        val mainViewModel = ViewModelProvider(this, ViewModelFactory.getInstance(application, SettingsPreferences.getInstance(dataStore)))[MainViewModel::class.java]
         mainViewModel.listUsers.observe(this) { listUsers ->
             val adapter = UsersAdapter(listUsers)
             binding.rvUsers.adapter = adapter
@@ -53,7 +65,25 @@ class MainActivity : AppCompatActivity() {
         val inflater = menuInflater
         inflater.inflate(R.menu.option_menu, menu)
 
+        val switch = menu.findItem(R.id.theme_switch).actionView as SwitchMaterial
+        val pref = SettingsPreferences.getInstance(dataStore)
+        val mainViewModel = ViewModelProvider(this, ViewModelFactory(application, pref))[MainViewModel::class.java]
+        mainViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                switch.isChecked = true
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                switch.isChecked = false
+            }
+        }
+
+        switch.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+            mainViewModel.saveThemeSetting(isChecked)
+        }
+
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        favoriteList = menu.findItem(R.id.favorites)
         val searchView = menu.findItem(R.id.search).actionView as SearchView
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
@@ -70,12 +100,15 @@ class MainActivity : AppCompatActivity() {
                 return false
             }
         })
-        val favoriteList = menu.findItem(R.id.favorites)
-        favoriteList.setOnMenuItemClickListener {
-            startActivity(Intent(this, FavoriteUserListActivity::class.java))
-            true
-        }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item == favoriteList) {
+            startActivity(Intent(this, FavoriteUserListActivity::class.java))
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun getUserSearchData (query : String){

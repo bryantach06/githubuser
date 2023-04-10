@@ -17,7 +17,9 @@ class FavoriteUserRepository(application: Application) {
         mFavoriteUserDao = db.favDao()
     }
 
-    fun getAllFavorites(username: String): LiveData<FavoriteUserEntity> = mFavoriteUserDao.getFavoriteUserByUsername(username) //i need to figure out how to get the selected user's username
+    fun getAllFavorites(): LiveData<List<FavoriteUserEntity>> = mFavoriteUserDao.getAllFavoriteUsers()
+
+    fun getFavoriteByUsername(username: String): LiveData<FavoriteUserEntity> = mFavoriteUserDao.getFavoriteUserByUsername(username) //i need to figure out how to get the selected user's username
 
     fun insert(favorites: FavoriteUserEntity){
         executorService.execute{ mFavoriteUserDao.insert(favorites) }

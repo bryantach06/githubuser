@@ -1,11 +1,15 @@
 package com.example.githubuser.ui.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.githubuser.ui.viewmodels.DetailViewModel
@@ -14,10 +18,13 @@ import com.example.githubuser.R
 import com.example.githubuser.ui.adapters.SectionsPagerAdapter
 import com.example.githubuser.api.UserResponse
 import com.example.githubuser.database.FavoriteUserEntity
+import com.example.githubuser.database.SettingsPreferences
 import com.example.githubuser.ui.adapters.UsersAdapter.Companion.EXTRA_USER
 import com.example.githubuser.databinding.ActivityDetailUserBinding
 import com.example.githubuser.ui.viewmodels.ViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
+
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class DetailUserActivity : AppCompatActivity() {
 
@@ -117,7 +124,7 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun obtainViewModel(activity: AppCompatActivity): DetailViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
+        val factory = ViewModelFactory.getInstance(activity.application, SettingsPreferences.getInstance(dataStore))
         return ViewModelProvider(activity, factory)[DetailViewModel::class.java]
     }
 

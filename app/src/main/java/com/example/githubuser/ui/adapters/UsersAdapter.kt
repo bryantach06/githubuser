@@ -43,7 +43,7 @@ class UsersAdapter(private var listUsers: List<ItemsItem>): RecyclerView.Adapter
                 updatedAt = "",
                 siteAdmin = false,
                 company = "",
-                id = user.id,
+                id = 0,
                 publicRepos = 0,
                 gravatarId = "",
                 organizationsUrl = "",

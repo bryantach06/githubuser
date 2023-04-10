@@ -1,17 +1,27 @@
 package com.example.githubuser.ui.viewmodels
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.example.githubuser.api.ApiConfig
 import com.example.githubuser.GithubResponse
 import com.example.githubuser.ItemsItem
+import com.example.githubuser.database.SettingsPreferences
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel: ViewModel() {
+class MainViewModel(private val pref: SettingsPreferences): ViewModel() {
+
+    fun getThemeSettings(): LiveData<Boolean> {
+        return pref.getThemeSetting().asLiveData()
+    }
+
+    fun saveThemeSetting(isDarkModeActive: Boolean) {
+        viewModelScope.launch {
+            pref.saveThemeSetting(isDarkModeActive)
+        }
+    }
 
     val _usersResponse = MutableLiveData<GithubResponse>()
     val usersResponse : LiveData<GithubResponse> = _usersResponse

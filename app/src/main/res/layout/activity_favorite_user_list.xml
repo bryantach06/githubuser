@@ -7,6 +7,7 @@
     tools:context=".ui.activities.FavoriteUserListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favuser"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

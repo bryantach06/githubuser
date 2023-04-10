@@ -35,7 +35,7 @@ class DetailViewModel(application: Application): ViewModel(){
     }
 
     fun getFavoriteUserByUsername(username: String): LiveData<FavoriteUserEntity> {
-        return mFavoriteUserRepository.getAllFavorites(username)
+        return mFavoriteUserRepository.getFavoriteByUsername(username)
     }
 
     fun deleteByUsername(username: String){
