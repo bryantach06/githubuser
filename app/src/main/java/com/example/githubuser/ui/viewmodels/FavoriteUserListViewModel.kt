@@ -9,9 +9,6 @@ import com.example.githubuser.repository.FavoriteUserRepository
 
 class FavoriteUserListViewModel(application: Application): ViewModel() {
 
-    private val _listFavorites = MutableLiveData<FavoriteUserEntity>()
-    val listFavorites : LiveData<FavoriteUserEntity> = _listFavorites
-
     private val mFavoriteUserRepository : FavoriteUserRepository = FavoriteUserRepository(application)
 
     fun getAllFavorites(): LiveData<List<FavoriteUserEntity>> {

@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.githubuser.ItemsItem
+import com.example.githubuser.api.ItemsItem
 import com.example.githubuser.R
 import com.example.githubuser.api.UserResponse
 import com.example.githubuser.ui.activities.DetailUserActivity
@@ -32,34 +32,11 @@ class UsersAdapter(private var listUsers: List<ItemsItem>): RecyclerView.Adapter
         myViewHolder.itemView.setOnClickListener {
             val intent = Intent(myViewHolder.itemView.context, DetailUserActivity::class.java)
             val userResponse = UserResponse(
-                gistsUrl = "",
-                reposUrl = "",
-                followingUrl = "",
-                createdAt = "",
                 login = user.login,
-                type = "",
-                blog = "",
-                subscriptionsUrl = "",
-                updatedAt = "",
-                siteAdmin = false,
-                company = "",
-                id = 0,
-                publicRepos = 0,
-                gravatarId = "",
-                organizationsUrl = "",
-                starredUrl = "",
-                followersUrl = "",
-                publicGists = 0,
-                url = "",
-                receivedEventsUrl = "",
                 followers = 0,
                 avatarUrl = user.avatarUrl,
-                eventsUrl = "",
-                htmlUrl = "",
                 following = 0,
                 name = "",
-                location = "",
-                nodeId = ""
             )
             intent.putExtra(EXTRA_USER, userResponse)
             intent.putExtra("login", userResponse.login)

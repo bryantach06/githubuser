@@ -8,7 +8,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.githubuser.ItemsItem
+import com.example.githubuser.api.ItemsItem
 import com.example.githubuser.database.FavoriteUserEntity
 import com.example.githubuser.database.SettingsPreferences
 import com.example.githubuser.databinding.ActivityFavoriteUserListBinding
@@ -28,18 +28,17 @@ class FavoriteUserListActivity : AppCompatActivity() {
         binding = ActivityFavoriteUserListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this, ViewModelFactory.getInstance(application, SettingsPreferences.getInstance(dataStore))).get(FavoriteUserListViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, ViewModelFactory.getInstance(application, SettingsPreferences.getInstance(dataStore)))[FavoriteUserListViewModel::class.java]
 
         viewModel.getAllFavorites().observe(this){user : List<FavoriteUserEntity>? ->
             val items = arrayListOf<ItemsItem>()
-            if (user != null) {
-                user.map{
-                    val item = ItemsItem(
-                        login = it.username,
-                        avatarUrl = it.avatarUrl ?: ""
-                    )
-                    items.add(item)
-                }
+            user?.map{
+                val item = ItemsItem(
+                    login = it.username,
+                    avatarUrl = it.avatarUrl ?: ""
+                )
+                items.add(item)
             }
             binding.rvFavuser.adapter = UsersAdapter(items)
             binding.rvFavuser.layoutManager = LinearLayoutManager(this)

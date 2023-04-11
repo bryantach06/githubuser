@@ -26,14 +26,6 @@ class DetailViewModel(application: Application): ViewModel(){
         mFavoriteUserRepository.insert(favorite)
     }
 
-    fun update(favorite: FavoriteUserEntity) {
-        mFavoriteUserRepository.update(favorite)
-    }
-
-    fun delete(favorite: FavoriteUserEntity) {
-        mFavoriteUserRepository.delete(favorite)
-    }
-
     fun getFavoriteUserByUsername(username: String): LiveData<FavoriteUserEntity> {
         return mFavoriteUserRepository.getFavoriteByUsername(username)
     }

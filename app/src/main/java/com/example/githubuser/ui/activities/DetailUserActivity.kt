@@ -5,8 +5,6 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
@@ -58,11 +56,11 @@ class DetailUserActivity : AppCompatActivity() {
         }
 
         val viewModel = obtainViewModel(this@DetailUserActivity)
-        val tv_name = findViewById<TextView>(R.id.name)
-        val avatar_user = findViewById<ImageView>(R.id.userPhoto)
-        val tv_username = findViewById<TextView>(R.id.username)
-        val tv_followers = findViewById<TextView>(R.id.followers)
-        val tv_following = findViewById<TextView>(R.id.following)
+        val tv_name = binding?.name
+        val avatar_user = binding?.userPhoto
+        val tv_username = binding?.username
+        val tv_followers = binding?.followers
+        val tv_following = binding?.following
 
         val user = intent.getParcelableExtra<UserResponse?>(EXTRA_USER)
 
@@ -74,24 +72,26 @@ class DetailUserActivity : AppCompatActivity() {
             showLoading(true)
             if (it != null) {
                 showLoading(false)
-                Glide.with(this)
-                    .load(it.avatarUrl)
-                    .into(avatar_user)
-                tv_name.text = it.name
-                tv_username.text = it.login
-                tv_followers.text = "Followers : ${it.followers.toString()}"
-                tv_following.text = "Following : ${it.following.toString()}"
+                if (avatar_user != null) {
+                    Glide.with(this)
+                        .load(it.avatarUrl)
+                        .into(avatar_user)
+                }
+                tv_name?.text = it.name
+                tv_username?.text = it.login
+                tv_followers?.text = "Followers : ${it.followers}"
+                tv_following?.text = "Following : ${it.following}"
                 print(tv_name)
             }
         }
 
         viewModel.getFavoriteUserByUsername(username).observe(this){favoriteUser ->
-            if (favoriteUser == null) {
+            isFavorite = if (favoriteUser == null) {
                 binding?.btnFavorite?.setImageResource(R.drawable.baseline_favorite_border_24)
-                isFavorite = false
+                false
             } else {
                 binding?.btnFavorite?.setImageResource(R.drawable.baseline_favorite_24)
-                isFavorite = true
+                true
             }
         }
 

@@ -3,8 +3,8 @@ package com.example.githubuser.ui.viewmodels
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.githubuser.api.ApiConfig
-import com.example.githubuser.GithubResponse
-import com.example.githubuser.ItemsItem
+import com.example.githubuser.api.GithubResponse
+import com.example.githubuser.api.ItemsItem
 import com.example.githubuser.database.SettingsPreferences
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -24,7 +24,6 @@ class MainViewModel(private val pref: SettingsPreferences): ViewModel() {
     }
 
     val _usersResponse = MutableLiveData<GithubResponse>()
-    val usersResponse : LiveData<GithubResponse> = _usersResponse
 
     private val _listUsers = MutableLiveData<List<ItemsItem>>()
     val listUsers : LiveData<List<ItemsItem>> = _listUsers

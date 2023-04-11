@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.githubuser.FollowResponseItem
+import com.example.githubuser.api.FollowResponseItem
 import com.example.githubuser.R
 
 class FollowAdapter(private var listFollow : List<FollowResponseItem>) : RecyclerView.Adapter<FollowAdapter.FollowViewHolder>() {

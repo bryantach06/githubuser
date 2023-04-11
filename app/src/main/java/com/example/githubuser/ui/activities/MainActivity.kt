@@ -23,6 +23,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.example.githubuser.*
 import com.example.githubuser.api.ApiConfig
+import com.example.githubuser.api.GithubResponse
+import com.example.githubuser.api.ItemsItem
 import com.example.githubuser.database.SettingsPreferences
 import com.example.githubuser.ui.adapters.UsersAdapter
 import com.example.githubuser.ui.viewmodels.MainViewModel
